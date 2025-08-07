@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atlas Adventure</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js"></script>
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.emailjs.com/sdk/3.2/email.min.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <h1>The Mountain Wins You Over</h1>
+      <p>Certified Toubkal Mountain Guide – Authentic Berber Experience</p>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main>
+    <!-- Sign Up / Login -->
+    <section id="auth-section">
+      <h2>Sign Up / Login</h2>
+      <form id="auth-form">
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit" id="auth-button">Sign Up / Login</button>
+      </form>
+      <div id="auth-message"></div>
+    </section>
+
+    <!-- Offers -->
+    <section id="offers">
+      <h2>Our Treks</h2>
+      <div class="offer">
+        <img src="assets/images/pic01.jpg" alt="Toubkal Express">
+        <div class="info">
+          <h3>Toubkal Express – 2-Day Ascent</h3>
+          <p class="price">From 199€ per person</p>
+          <button class="book-btn" data-offer="Toubkal Express">Book Now</button>
+        </div>
+      </div>
+      <div class="offer">
+        <img src="assets/images/pic02.jpg" alt="Berber Escape">
+        <div class="info">
+          <h3>Berber Escape – 3 Days</h3>
+          <p class="price">From 249€ per person</p>
+          <button class="book-btn" data-offer="Berber Escape">Book Now</button>
+        </div>
+      </div>
+      <div class="offer">
+        <img src="assets/images/pic03.jpg" alt="Peaks & Dunes">
+        <div class="info">
+          <h3>Peaks & Dunes – 6-Day Tour</h3>
+          <p class="price">From 449€ per person</p>
+          <button class="book-btn" data-offer="Peaks & Dunes">Book Now</button>
+        </div>
+      </div>
+      <div class="offer">
+        <img src="assets/images/pic04.jpg" alt="Custom Adventure">
+        <div class="info">
+          <h3>Tailor-Made Adventure</h3>
+          <p class="price">From 299€ per person</p>
+          <button class="book-btn" data-offer="Custom Adventure">Book Now</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Booking Modal -->
+    <div id="booking-modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3 id="modal-offer"></h3>
+        <input id="date-picker" placeholder="Select date" />
+        <button id="confirm-book">Confirm Booking</button>
+        <div id="booking-msg"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-legal">
+      <a href="terms.html">Terms & Conditions</a> |
+      <a href="privacy.html">Privacy Policy</a> |
+      <a href="legal.html">Legal Notice</a>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/firebase.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
