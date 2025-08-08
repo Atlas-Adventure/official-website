@@ -4,9 +4,9 @@ import { GeistMono } from 'geist/font/mono'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Lahsan guide',
-  description: 'Profetional guide of the toubkale montaine',
-  generator: 'akhy',
+  title: 'Atlas Adventure',
+  description: 'Atlas Adventures offers unforgettable trekking experiences in Morocco’s Atlas Mountains, combining breathtaking landscapes, authentic Berber culture, and seamless online booking.',
+  generator: 'Next.js & Akhy_Dev',
 }
 
 export default function RootLayout({
