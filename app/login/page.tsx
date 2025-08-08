@@ -1,49 +1,62 @@
-"use client"
+'use client'
 
-import type React from "react"
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Mountain, ArrowLeft } from "lucide-react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { ArrowLeft } from "lucide-react"
+
+import { supabase } from '@/lib/supabaseClient'
 
 export default function LoginPage() {
   const router = useRouter()
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     rememberMe: false,
   })
+  const [error, setError]     = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
+    setFormData(prev => ({ ...prev, [name]: value }))
   }
 
   const handleCheckboxChange = (checked: boolean) => {
-    setFormData((prev) => ({
-      ...prev,
-      rememberMe: checked,
-    }))
+    setFormData(prev => ({ ...prev, rememberMe: checked }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
+    setLoading(true)
 
-    // Here you would typically authenticate with your backend
-    console.log("Login data:", formData)
+    const { data, error: supaError } = await supabase.auth.signInWithPassword({
+      email:    formData.email,
+      password: formData.password,
+    })
 
-    // Simulate successful login
-    alert("Login successful! Welcome back!")
-    router.push("/dashboard")
+    setLoading(false)
+
+    if (supaError) {
+      setError(supaError.message)
+    } else {
+      // Optionnel : gérer rememberMe via cookie/session
+      router.push('/dashboard')
+    }
   }
 
   return (
@@ -51,29 +64,29 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center space-x-2 text-orange-900 hover:text-orange-700 mb-4">
+          <Link
+            href="/"
+            className="inline-flex items-center space-x-2 text-orange-900 hover:text-orange-700 mb-4"
+          >
             <ArrowLeft className="h-4 w-4" />
             <span>Back to Home</span>
           </Link>
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <Mountain className="h-8 w-8 text-orange-600" />
-            <h1 className="text-2xl font-bold text-orange-900">Atlas Adventures</h1>
-          </div>
+          <h1 className="text-2xl font-bold text-orange-900">Atlas Adventures</h1>
         </div>
 
         <Card className="border-orange-200 shadow-xl">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl text-orange-900">Welcome Back</CardTitle>
+            <CardTitle className="text-2xl text-orange-900">Sign In</CardTitle>
             <CardDescription className="text-orange-700">
-              Sign in to your account to continue your adventure
+              Enter your credentials to access your account
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
+              {error && <p className="text-red-600 text-center">{error}</p>}
+
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-orange-900">
-                  Email
-                </Label>
+                <Label htmlFor="email" className="text-orange-900">Email</Label>
                 <Input
                   id="email"
                   name="email"
@@ -82,14 +95,11 @@ export default function LoginPage() {
                   value={formData.email}
                   onChange={handleInputChange}
                   className="border-orange-200 focus:border-orange-500"
-                  placeholder="your@email.com"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-orange-900">
-                  Password
-                </Label>
+                <Label htmlFor="password" className="text-orange-900">Password</Label>
                 <Input
                   id="password"
                   name="password"
@@ -101,20 +111,24 @@ export default function LoginPage() {
                 />
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="rememberMe" checked={formData.rememberMe} onCheckedChange={handleCheckboxChange} />
-                  <Label htmlFor="rememberMe" className="text-sm text-orange-700">
-                    Remember me
-                  </Label>
-                </div>
-                <Link href="/forgot-password" className="text-sm text-orange-600 hover:underline">
-                  Forgot password?
-                </Link>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="rememberMe"
+                  checked={formData.rememberMe}
+                  onCheckedChange={checked => handleCheckboxChange(checked as boolean)}
+                />
+                <Label htmlFor="rememberMe" className="text-sm text-orange-700">
+                  Remember me
+                </Label>
               </div>
 
-              <Button type="submit" className="w-full bg-orange-600 hover:bg-orange-700 text-white" size="lg">
-                Sign In
+              <Button
+                type="submit"
+                className="w-full bg-orange-600 hover:bg-orange-700 text-white"
+                size="lg"
+                disabled={loading}
+              >
+                {loading ? "Signing in…" : "Sign In"}
               </Button>
             </form>
 
@@ -122,29 +136,9 @@ export default function LoginPage() {
               <p className="text-orange-700">
                 Don't have an account?{" "}
                 <Link href="/register" className="text-orange-600 hover:underline font-semibold">
-                  Create one here
+                  Sign up here
                 </Link>
               </p>
-            </div>
-
-            <div className="mt-6 pt-6 border-t border-orange-200">
-              <div className="text-center">
-                <p className="text-sm text-orange-600 mb-4">Or continue with</p>
-                <div className="space-y-2">
-                  <Button
-                    variant="outline"
-                    className="w-full border-orange-200 text-orange-700 hover:bg-orange-50 bg-transparent"
-                  >
-                    Continue with Google
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full border-orange-200 text-orange-700 hover:bg-orange-50 bg-transparent"
-                  >
-                    Continue with Facebook
-                  </Button>
-                </div>
-              </div>
             </div>
           </CardContent>
         </Card>
