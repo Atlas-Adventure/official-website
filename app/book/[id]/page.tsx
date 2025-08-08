@@ -18,10 +18,35 @@ import Image from "next/image"
 import { useParams, useRouter } from "next/navigation"
 import { format } from "date-fns"
 
-const trekkingOffers = {
+// ------ (1) Typage clair pour les offres et le formulaire
+type Offer = {
+  id: number
+  name: string
+  description: string
+  duration: string
+  difficulty: "Easy" | "Moderate" | "Advanced"
+  price: number
+  maxGroupSize: number
+  minAge: number
+  highlights: string[]
+  included: string[]
+  notIncluded: string[]
+  image: string
+}
+
+type FormDataState = {
+  participants: number
+  specialRequests: string
+  emergencyContact: string
+  emergencyPhone: string
+  dietaryRestrictions: string
+  fitnessLevel: string
+}
+
+const trekkingOffers: Record<string, Offer> = {
   "1": {
     id: 1,
-    name: "Atlas Summit Adventure",
+    name: "Trek to Mount Toubkal",
     description:
       "Conquer the highest peaks of the High Atlas Mountains with breathtaking views and traditional Berber villages. This challenging trek takes you through diverse landscapes, from lush valleys to rocky summits, offering an authentic Moroccan mountain experience.",
     duration: "7 days",
@@ -36,9 +61,79 @@ const trekkingOffers = {
   },
   "2": {
     id: 2,
-    name: "Desert Dunes Trek",
-    description:
-      "Experience the magic of the Sahara with camel trekking and nights under the stars in luxury desert camps.",
+    name: "Adventure to Imlil",
+    description: "Experience the magic of the Sahara with camel trekking and nights under the stars in luxury desert camps.",
+    duration: "5 days",
+    difficulty: "Moderate",
+    price: 699,
+    maxGroupSize: 15,
+    minAge: 12,
+    highlights: ["Erg Chebbi dunes", "Camel trekking", "Desert camping", "Sunrise/sunset views"],
+    included: ["Professional guide", "All meals", "Desert camp", "Camel trekking", "Transportation"],
+    notIncluded: ["International flights", "Personal equipment", "Travel insurance", "Tips"],
+    image: "/placeholder.svg?height=400&width=600",
+  },
+  // (les autres clés inchangées…)
+  "3": {
+    id: 2,
+    name: "Professional Mountain Trek",
+    description: "Experience the magic of the Sahara with camel trekking and nights under the stars in luxury desert camps.",
+    duration: "5 days",
+    difficulty: "Moderate",
+    price: 699,
+    maxGroupSize: 15,
+    minAge: 12,
+    highlights: ["Erg Chebbi dunes", "Camel trekking", "Desert camping", "Sunrise/sunset views"],
+    included: ["Professional guide", "All meals", "Desert camp", "Camel trekking", "Transportation"],
+    notIncluded: ["International flights", "Personal equipment", "Travel insurance", "Tips"],
+    image: "/placeholder.svg?height=400&width=600",
+  },
+  "4": {
+    id: 2,
+    name: "Trek: Imlil → Tizi M'Zik Pass → Tizi Oussem → Azzaden Valley → Return to Imlil.",
+    description: "Experience the magic of the Sahara with camel trekking and nights under the stars in luxury desert camps.",
+    duration: "5 days",
+    difficulty: "Moderate",
+    price: 699,
+    maxGroupSize: 15,
+    minAge: 12,
+    highlights: ["Erg Chebbi dunes", "Camel trekking", "Desert camping", "Sunrise/sunset views"],
+    included: ["Professional guide", "All meals", "Desert camp", "Camel trekking", "Transportation"],
+    notIncluded: ["International flights", "Personal equipment", "Travel insurance", "Tips"],
+    image: "/placeholder.svg?height=400&width=600",
+  },
+  "5": {
+    id: 2,
+    name: "Mountain Biking Tour Imlil → Tachedirt → Asni → Return to Imlil",
+    description: "Experience the magic of the Sahara with camel trekking and nights under the stars in luxury desert camps.",
+    duration: "5 days",
+    difficulty: "Moderate",
+    price: 699,
+    maxGroupSize: 15,
+    minAge: 12,
+    highlights: ["Erg Chebbi dunes", "Camel trekking", "Desert camping", "Sunrise/sunset views"],
+    included: ["Professional guide", "All meals", "Desert camp", "Camel trekking", "Transportation"],
+    notIncluded: ["International flights", "Personal equipment", "Travel insurance", "Tips"],
+    image: "/placeholder.svg?height=400&width=600",
+  },
+  "6": {
+    id: 2,
+    name: "3-days trek to Mount Toubkal",
+    description: "Experience the magic of the Sahara with camel trekking and nights under the stars in luxury desert camps.",
+    duration: "5 days",
+    difficulty: "Moderate",
+    price: 699,
+    maxGroupSize: 15,
+    minAge: 12,
+    highlights: ["Erg Chebbi dunes", "Camel trekking", "Desert camping", "Sunrise/sunset views"],
+    included: ["Professional guide", "All meals", "Desert camp", "Camel trekking", "Transportation"],
+    notIncluded: ["International flights", "Personal equipment", "Travel insurance", "Tips"],
+    image: "/placeholder.svg?height=400&width=600",
+  },
+  "7": {
+    id: 2,
+    name: "Marrakech to Sahara Desert Adventure Tour",
+    description: "Experience the magic of the Sahara with camel trekking and nights under the stars in luxury desert camps.",
     duration: "5 days",
     difficulty: "Moderate",
     price: 699,
@@ -58,14 +153,14 @@ export default function BookingPage() {
   const offer = trekkingOffers[offerId as keyof typeof trekkingOffers]
 
   const [selectedDate, setSelectedDate] = useState<Date>()
-  const [formData, setFormData] = useState({
+  // ------ (2) Typage explicite du state formulaire
+  const [formData, setFormData] = useState<FormDataState>({
     participants: 1,
     specialRequests: "",
     emergencyContact: "",
     emergencyPhone: "",
     dietaryRestrictions: "",
     fitnessLevel: "",
-    previousExperience: "",
   })
 
   if (!offer) {
@@ -83,11 +178,9 @@ export default function BookingPage() {
     )
   }
 
-  const handleInputChange = (name: string, value: string | number) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
+  // ------ (3) handleInputChange typé + conversion des nombres en amont
+  const handleInputChange = <K extends keyof FormDataState>(name: K, value: FormDataState[K]) => {
+    setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -98,13 +191,17 @@ export default function BookingPage() {
       return
     }
 
+    // ------ (4) Normaliser participants (toujours nombre) AVANT de construire bookingData
+    const participants = Number(formData.participants) || 1
+    const totalPrice = offer.price * participants
+
     const bookingData = {
+      ...formData, // on étale d'abord
+      participants, // on écrase avec la version normalisée
       offerId: offer.id,
       offerName: offer.name,
       date: selectedDate,
-      participants: formData.participants,
-      totalPrice: offer.price * formData.participants,
-      ...formData,
+      totalPrice,
     }
 
     console.log("Booking data:", bookingData)
@@ -112,7 +209,8 @@ export default function BookingPage() {
     router.push("/dashboard")
   }
 
-  const totalPrice = offer.price * formData.participants
+  // ------ (5) Total calculé avec participants normalisé (affichage)
+  const totalPrice = offer.price * (Number(formData.participants) || 1)
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-amber-50">
@@ -143,8 +241,8 @@ export default function BookingPage() {
                       offer.difficulty === "Easy"
                         ? "bg-green-600"
                         : offer.difficulty === "Moderate"
-                          ? "bg-yellow-600"
-                          : "bg-red-600"
+                        ? "bg-yellow-600"
+                        : "bg-red-600"
                     }`}
                   >
                     {offer.difficulty}
@@ -255,15 +353,15 @@ export default function BookingPage() {
                       Number of Participants
                     </Label>
                     <Select
-                      value={formData.participants.toString()}
-                      onValueChange={(value) => handleInputChange("participants", Number.parseInt(value))}
+                      value={String(formData.participants)}
+                      onValueChange={(value) => handleInputChange("participants", Number(value))}
                     >
                       <SelectTrigger className="border-orange-200">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         {[...Array(offer.maxGroupSize)].map((_, i) => (
-                          <SelectItem key={i + 1} value={(i + 1).toString()}>
+                          <SelectItem key={i + 1} value={String(i + 1)}>
                             {i + 1} {i === 0 ? "person" : "people"}
                           </SelectItem>
                         ))}
@@ -351,7 +449,7 @@ export default function BookingPage() {
                     </div>
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-orange-700">Participants:</span>
-                      <span className="font-semibold text-orange-900">{formData.participants}</span>
+                      <span className="font-semibold text-orange-900">{Number(formData.participants)}</span>
                     </div>
                     <div className="flex justify-between items-center text-lg font-bold text-orange-900 border-t border-orange-200 pt-2">
                       <span>Total:</span>

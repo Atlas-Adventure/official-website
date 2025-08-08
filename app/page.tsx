@@ -15,7 +15,7 @@ const trekkingOffers = [
     difficulty: "Advanced",
     price: "$499",
     highlights: ["Round-trip transport between Marrakech and Imlil", "Professional certified mountain guide", "Mule for luggage transport", "1-night accommodation at Toubkal Refuge", "All meals during the trek (breakfast, lunch, dinner)", "Use of trekking poles and headlamp (optional rental)"],
-    image: "/img_montagne/Montagne_hd_3.jpg",
+    image: "/img_guide/guide_04.jpg",
   },
   {
     id: 2,
@@ -37,7 +37,7 @@ const trekkingOffers = [
     difficulty: "Moderate",
     price: "$899",
     highlights: ["Professional certified mountain guide", "Mule team for luggage transportation", "4 nights’ accommodation in guesthouses and mountain refuges", "All meals throughout the trek (breakfast, lunch, dinner)", "Return transportation to/from Imlil (if needed) "],
-    image: "/img_montagne/Montagne_hd_4.jpg",
+    image: "/img_guide/guide_20.jpg",
   },
   {
     id: 4,
@@ -52,25 +52,36 @@ const trekkingOffers = [
   },
   {
     id: 5,
-    name: "Rif Mountains Journey",
+    name: "Mountain Biking Tour Imlil → Tachedirt → Asni → Return to Imlil",
     description:
-      "Trek through the green mountains of northern Morocco with Mediterranean views and traditional villages.",
-    duration: "5 days",
+      "Cycle through breathtaking Atlas landscapes, charming Berber villages, and vibrant valleys, enjoying authentic culture, fresh mountain air, and unforgettable panoramic views in one epic day.",
+    duration: "Full-Day Experience",
     difficulty: "Easy",
-    price: "$599",
-    highlights: ["Mediterranean views", "Green landscapes", "Traditional villages"],
-    image: "/placeholder.svg?height=300&width=400",
+    price: "$199",
+    highlights: ["High-quality mountain bike & helmet", "Certified local biking guide", "Light snack and bottled water", "Traditional Moroccan lunch","Personalized tips and insights from your local guide"],
+    image: "/img_guide/guide_24.jpg",
   },
   {
     id: 6,
-    name: "Grand Morocco Circuit",
+    name: "3-days trek to Mount Toubkal",
     description:
-      "The ultimate 12-day adventure combining all mountain ranges with desert experience and cultural immersion.",
-    duration: "12 days",
+      "Embark on a thrilling 3-day trek to conquer North Africa’s highest peak, blending scenic trails, Berber hospitality, and breathtaking sunrise views from 4,167 meters.",
+    duration: "3 days",
     difficulty: "Advanced",
-    price: "$1499",
-    highlights: ["All mountain ranges", "Desert & mountains", "Cultural immersion"],
-    image: "/placeholder.svg?height=300&width=400",
+    price: "$220",
+    highlights: ["Round-trip transport between Marrakech and Imlil", "Professional certified mountain guide", "Mule for luggage transport", "1-night accommodation at Toubkal Refuge", "All meals during the trek (breakfast, lunch, dinner)", "Use of trekking poles and headlamp (optional rental)"],
+    image: "/img_guide/guide_17.jpg",
+  },
+    {
+    id: 7,
+    name: "Marrakech to Sahara Desert Adventure Tour",
+    description:
+      "Embark on a breathtaking journey from Marrakech to the golden dunes of the Sahara, blending desert landscapes, Berber culture, and star-filled nights.",
+    duration: "4 days",
+    difficulty: "Easy",
+    price: "$299",
+    highlights: ["Round-trip transport between Marrakech and Imlil", "Professional certified mountain guide", "Mule for luggage transport", "1-night accommodation at Toubkal Refuge", "All meals during the trek (breakfast, lunch, dinner)", "Use of trekking poles and headlamp (optional rental)"],
+    image: "/img_montagne/Montagne_hd_7.jpg",
   },
 ]
 
@@ -214,7 +225,7 @@ export default function HomePage() {
                     <div className="text-2xl font-bold text-orange-900">{offer.price}</div>
                   </div>
                   <div className="space-y-2">
-                    <h4 className="font-semibold text-orange-900">Highlights:</h4>
+                    <h4 className="font-semibold text-orange-900">Included Services:</h4>
                     <ul className="text-sm text-orange-700 space-y-1">
                       {offer.highlights.map((highlight, index) => (
                         <li key={index} className="flex items-center space-x-2">
@@ -241,9 +252,9 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h3 className="text-4xl font-bold mb-6">Meet Your Expert Guide</h3>
+              <h3 className="text-4xl font-bold mb-6">Meet Your Expert Guide Lahsan</h3>
               <p className="text-xl mb-6 text-orange-100">
-                With over 15 years of experience guiding adventurers through Morocco's most spectacular landscapes, I am
+                With over 10 years of experience guiding adventurers through Morocco's most spectacular landscapes, I am
                 passionate about sharing the beauty and culture of my homeland.
               </p>
               <div className="space-y-4">
@@ -261,8 +272,8 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className="relative h-96 rounded-lg overflow-hidden">
-              <Image src="/placeholder.svg?height=400&width=600" alt="Mountain Guide" fill className="object-cover" />
+            <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+              <Image src="/img_guide/guide_26.jpg" alt="Mountain Guide" fill className="object-cover" />
             </div>
           </div>
         </div>
@@ -307,17 +318,17 @@ export default function HomePage() {
             <div className="flex flex-col items-center space-y-4">
               <Phone className="h-12 w-12 text-orange-300" />
               <h4 className="text-xl font-semibold">Call Us</h4>
-              <p className="text-orange-100">+212 6XX XXX XXX</p>
+              <p className="text-orange-100">+212 653 534 590</p>
             </div>
             <div className="flex flex-col items-center space-y-4">
               <Mail className="h-12 w-12 text-orange-300" />
               <h4 className="text-xl font-semibold">Email Us</h4>
-              <p className="text-orange-100">info@atlasadventures.ma</p>
+              <p className="text-orange-100">toubkaleguidepro@gmail.com</p>
             </div>
             <div className="flex flex-col items-center space-y-4">
               <MapPin className="h-12 w-12 text-orange-300" />
               <h4 className="text-xl font-semibold">Visit Us</h4>
-              <p className="text-orange-100">Marrakech, Morocco</p>
+              <p className="text-orange-100">Marrakech, Imlil, Morocco</p>
             </div>
           </div>
         </div>
@@ -364,22 +375,37 @@ export default function HomePage() {
               <ul className="space-y-2 text-orange-200">
                 <li>
                   <Link href="/book/1" className="hover:text-orange-300">
-                    Atlas Summit
+                    Trek to Mount Toubkal
                   </Link>
                 </li>
                 <li>
                   <Link href="/book/2" className="hover:text-orange-300">
-                    Desert Dunes
+                    Adventure to Imlil
                   </Link>
                 </li>
                 <li>
                   <Link href="/book/3" className="hover:text-orange-300">
-                    Anti-Atlas
+                    Professional Mountain Trek
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/book/4" className="hover:text-orange-300">
+                    Trek to Imlil
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/book/5" className="hover:text-orange-300">
+                    Mountain Biking Tour to Imlil
                   </Link>
                 </li>
                 <li>
                   <Link href="/book/6" className="hover:text-orange-300">
-                    Grand Circuit
+                    3-days trek to Mount Toubkal
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/book/7" className="hover:text-orange-300">
+                    Marrakech to Sahara Desert Adventure Tour
                   </Link>
                 </li>
               </ul>
@@ -387,21 +413,34 @@ export default function HomePage() {
             <div>
               <h5 className="font-semibold mb-4">Follow Us</h5>
               <p className="text-orange-200 mb-4">Stay updated with our latest adventures</p>
-              <div className="flex space-x-4">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="border-orange-300 text-orange-300 hover:bg-orange-300 hover:text-orange-900 bg-transparent"
+            <div className="flex space-x-4">
+                <a
+                  href="https://www.facebook.com/TON_PROFIL" // remplace par ton lien Facebook
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  Facebook
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="border-orange-300 text-orange-300 hover:bg-orange-300 hover:text-orange-900 bg-transparent"
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-orange-300 text-orange-300 hover:bg-orange-300 hover:text-orange-900 bg-transparent"
+                  >
+                    Facebook
+                  </Button>
+                </a>
+
+                <a
+                  href="https://www.instagram.com/atlas_holiday_" // remplace si besoin
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  Instagram
-                </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-orange-300 text-orange-300 hover:bg-orange-300 hover:text-orange-900 bg-transparent"
+                  >
+                    Instagram
+                  </Button>
+                </a>
               </div>
             </div>
           </div>
