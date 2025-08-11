@@ -6,7 +6,7 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Atlas Adventure',
   description: 'Atlas Adventures offers unforgettable trekking experiences in Morocco’s Atlas Mountains, combining breathtaking landscapes, authentic Berber culture, and seamless online booking.',
-  generator: 'Next.js & Akhy_Dev',
+  generator: 'Next.js & nova-secure',
 }
 
 export default function RootLayout({

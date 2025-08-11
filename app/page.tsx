@@ -415,7 +415,7 @@ export default function HomePage() {
               <p className="text-orange-200 mb-4">Stay updated with our latest adventures</p>
             <div className="flex space-x-4">
                 <a
-                  href="https://www.facebook.com/TON_PROFIL" // remplace par ton lien Facebook
+                  href="https://www.facebook.com/ayni.idblid?mibextid=wwXIfr&mibextid=wwXIfr" 
                   target="_blank"
                   rel="noopener noreferrer"
                 >
