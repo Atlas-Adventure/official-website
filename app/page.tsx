@@ -130,19 +130,6 @@ export default function HomePage() {
               Contact
             </Link>
           </nav>
-          <div className="flex space-x-2">
-            <Link href="/login">
-              <Button
-                variant="outline"
-                className="border-orange-300 text-orange-300 hover:bg-orange-300 hover:text-orange-900 bg-transparent"
-              >
-                Login
-              </Button>
-            </Link>
-            <Link href="/register">
-              <Button className="bg-orange-600 hover:bg-orange-700">Sign Up</Button>
-            </Link>
-          </div>
         </div>
       </header>
 
