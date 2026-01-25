@@ -137,11 +137,13 @@ export default function HomePage() {
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-orange-900/70 to-red-900/70 z-10"></div>
         <Image
-          src="/img_montagne/Montagne_hd_1.jpg?height=1080&width=1920"
-          alt="Moroccan Mountains"
+          src="/img_montagne/Montagne_hd_1.jpg"
+          alt="Majestic High Atlas Mountains in Morocco with snow-capped peaks and dramatic landscapes - Atlas Adventures trekking destination"
           fill
           className="object-cover"
           priority
+          sizes="100vw"
+          quality={90}
         />
         <div className="relative z-20 text-center text-white max-w-4xl px-4">
           <h2 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-lg">
