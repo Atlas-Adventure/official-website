@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Mountain, ArrowLeft, CalendarIcon, Users, Clock, MapPin, Star, Check, UtensilsCrossed, Sparkles, Bike, Landmark } from "lucide-react"
+import { Mountain, ArrowLeft, CalendarIcon, Users, Clock, MapPin, Star, Check, UtensilsCrossed, Sparkles, Bike, Landmark, ExternalLink, MessageCircle } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { useParams, useRouter } from "next/navigation"
@@ -686,20 +686,20 @@ export default function BookingPage() {
 
     // ------ (4) Normaliser participants (toujours nombre) AVANT de construire bookingData
     const participants = Number(formData.participants) || 1
-    const totalPrice = offer.price * participants
+    const formattedDate = format(selectedDate, "MMMM d, yyyy")
+    const activityName = offer.name
 
-    const bookingData = {
-      ...formData, // on étale d'abord
-      participants, // on écrase avec la version normalisée
-      offerId: offer.id,
-      offerName: offer.name,
-      date: selectedDate,
-      totalPrice,
-    }
-
-    console.log("Booking data:", bookingData)
-    alert("Booking submitted successfully! We'll contact you soon to confirm your adventure.")
-    router.push("/dashboard")
+    // Create WhatsApp message with booking details
+    const whatsappMessage = `Hello Atlas Adventures! I would like to book the ${activityName} for ${participants} ${participants === 1 ? "person" : "people"} on ${formattedDate}. Please let me know the next steps.`
+    
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(whatsappMessage)
+    
+    // Create WhatsApp URL
+    const whatsappUrl = `https://wa.me/212653534590?text=${encodedMessage}`
+    
+    // Open WhatsApp in a new tab
+    window.open(whatsappUrl, "_blank")
   }
 
   // ------ (5) Total calculé avec participants normalisé (affichage)
@@ -1192,6 +1192,27 @@ export default function BookingPage() {
               </Card>
             )}
 
+            {/* TripAdvisor Button */}
+            <Card className="border-orange-200 sticky top-4 mb-4">
+              <CardContent className="pt-6">
+                <a
+                  href="https://www.tripadvisor.fr/Attraction_Review-g488109-d33734404-Reviews-Atlas_Adventures-Imlil_Marrakech_Safi.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full"
+                >
+                  <Button
+                    variant="outline"
+                    className="w-full border-green-600 text-green-700 hover:bg-green-50 hover:text-green-800 bg-white"
+                    size="lg"
+                  >
+                    <ExternalLink className="mr-2 h-5 w-5" />
+                    See our reviews on TripAdvisor
+                  </Button>
+                </a>
+              </CardContent>
+            </Card>
+
             <Card className="border-orange-200 sticky top-4">
               <CardHeader>
                 <CardTitle className="text-orange-900">Book This Adventure</CardTitle>
@@ -1344,8 +1365,9 @@ export default function BookingPage() {
                     </div>
                   </div>
 
-                  <Button type="submit" className="w-full bg-orange-600 hover:bg-orange-700 text-white" size="lg">
-                    Book Now - ${totalPrice}
+                  <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white" size="lg">
+                    <MessageCircle className="mr-2 h-5 w-5" />
+                    Book via WhatsApp
                   </Button>
                 </form>
 
