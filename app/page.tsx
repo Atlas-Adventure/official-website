@@ -4,89 +4,12 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Mountain, Star, Users, Clock, MapPin, Phone, Mail, ChevronDown, ChevronUp } from "lucide-react"
+import { Mountain, Star, Users, Clock, MapPin, Phone, Mail, ChevronDown, ChevronUp, Menu, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { getOffersForHomepage } from "@/lib/data"
 
-const trekkingOffers = [
-  {
-    id: 1,
-        name: "Trek to Mount Toubkal",
-    description:
-      "A fast-paced adventure to conquer the highest peak in North Africa. Traverse breathtaking landscapes, discover Berber villages, and reach the summit of Mount Toubkal with a rewarding sunrise view over the Atlas Mountains and the Sahara.",
-    duration: "2 days",
-    difficulty: "Advanced",
-    price: "$150",
-    highlights: ["Round-trip transport between Marrakech and Imlil", "Professional certified mountain guide", "Mule for luggage transport", "1-night accommodation at Toubkal Refuge", "All meals during the trek (breakfast, lunch, dinner)", "Use of trekking poles and headlamp (optional rental)"],
-    image: "/img_guide/guide_04.jpg",
-  },
-  {
-    id: 2,
-    name: "Adventure to Imlil",
-    description:
-      "Immerse yourself in the serene beauty of the High Atlas Mountains. Discover picturesque landscapes, authentic Amazigh (Berber) culture, charming villages, and cascading waterfalls — all in a single unforgettable day.",
-    duration: "Full-Day Experience",
-    difficulty: "Easy",
-    price: "$80",
-    highlights: ["Round-trip transportation from Marrakech to Imlil (private car or van)","Certified local mountain guide", "Traditional Amazigh lunch", "Guided hike tailored to your fitness level","Bottled water during the trip"],
-    image: "img_montagne/Montagne_hd_imlil.jpg",
-  },
-  {
-    id: 3,
-    name: "Professional Mountain Trek",
-    description:
-      "Stunning panoramic mountain views, majestic waterfalls, authentic Berber villages, and an unforgettable journey through the High Atlas Mountains. Imlil → Azadene → Tignet → Tamsoult → Toubkal Refuge → Imlil",
-    duration: "5 days",
-    difficulty: "Moderate",
-    price: "$270",
-    highlights: ["Professional certified mountain guide", "Mule team for luggage transportation", "4 nights’ accommodation in guesthouses and mountain refuges", "All meals throughout the trek (breakfast, lunch, dinner)", "Return transportation to/from Imlil (if needed) "],
-    image: "/img_guide/guide_20.jpg",
-  },
-  {
-    id: 4,
-    name: "Trek: Imlil → Tizi M'Zik Pass → Tizi Oussem → Azzaden Valley → Return to Imlil.",
-    description: 
-      "Panoramic views, authentic Berber villages, juniper forests, local culture, and mountain hospitality.",
-    duration: "2 days",
-    difficulty: "Moderate",
-    price: "$130",
-    highlights: ["Professional mountain guide", "Mule(s) for luggage (optional)", "1-night accommodation in a Berber guesthouse", "All meals (2 lunches, 1 dinner, 1 breakfast)", "Return transport to/from Imlil (on request)"],
-    image: "/img_pro_randonnee/Randonee_06.jpg",
-  },
-  {
-    id: 5,
-    name: "Mountain Biking Tour Imlil → Tachedirt → Asni → Return to Imlil",
-    description:
-      "Cycle through breathtaking Atlas landscapes, charming Berber villages, and vibrant valleys, enjoying authentic culture, fresh mountain air, and unforgettable panoramic views in one epic day.",
-    duration: "Full-Day Experience",
-    difficulty: "Easy",
-    price: "$150",
-    highlights: ["High-quality mountain bike & helmet", "Certified local biking guide", "Light snack and bottled water", "Traditional Moroccan lunch","Personalized tips and insights from your local guide"],
-    image: "/img_guide/guide_24.jpg",
-  },
-  {
-    id: 6,
-    name: "3-days trek to Mount Toubkal",
-    description:
-      "Embark on a thrilling 3-day trek to conquer North Africa’s highest peak, blending scenic trails, Berber hospitality, and breathtaking sunrise views from 4,167 meters.",
-    duration: "3 days",
-    difficulty: "Advanced",
-    price: "$220",
-    highlights: ["Round-trip transport between Marrakech and Imlil", "Professional certified mountain guide", "Mule for luggage transport", "1-night accommodation at Toubkal Refuge", "All meals during the trek (breakfast, lunch, dinner)", "Use of trekking poles and headlamp (optional rental)"],
-    image: "/img_guide/guide_17.jpg",
-  },
-    {
-    id: 7,
-    name: "Marrakech to Sahara Desert Adventure Tour",
-    description:
-      "Embark on a breathtaking journey from Marrakech to the golden dunes of the Sahara, blending desert landscapes, Berber culture, and star-filled nights.",
-    duration: "4 days",
-    difficulty: "Easy",
-    price: "$420",
-    highlights: ["Round-trip transport between Marrakech and Imlil", "Professional certified mountain guide", "Mule for luggage transport", "1-night accommodation at Toubkal Refuge", "All meals during the trek (breakfast, lunch, dinner)", "Use of trekking poles and headlamp (optional rental)"],
-    image: "/img_montagne/Montagne_hd_7.jpg",
-  },
-]
+const trekkingOffers = getOffersForHomepage()
 
 const testimonials = [
   {
@@ -171,30 +94,61 @@ const testimonials = [
 
 export default function HomePage() {
   const [showAllTestimonials, setShowAllTestimonials] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-amber-50">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-orange-900 to-red-900 text-white shadow-lg">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Mountain className="h-8 w-8 text-orange-300" />
-            <h1 className="text-2xl font-bold">Atlas Adventures</h1>
+      <header className="sticky top-0 z-50 bg-gradient-to-r from-orange-900/90 to-red-900/90 text-white shadow-lg backdrop-blur-md">
+        <div className="container mx-auto px-4 py-3 sm:py-4">
+          <div className="grid grid-cols-[auto_1fr_auto] items-center">
+            <button
+              type="button"
+              className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-md text-orange-200 hover:text-white"
+              onClick={() => setMobileMenuOpen((open) => !open)}
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            >
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+            <div className="flex items-center justify-center space-x-2">
+              <Mountain className="h-7 w-7 sm:h-8 sm:w-8 text-orange-300" />
+              <h1 className="text-lg sm:text-xl md:text-2xl font-bold">Atlas Adventures</h1>
+            </div>
+            <nav className="hidden md:flex justify-end space-x-6">
+              <Link href="#offers" className="hover:text-orange-300 transition-colors">
+                Offers
+              </Link>
+              <Link href="#about" className="hover:text-orange-300 transition-colors">
+                About
+              </Link>
+              <Link href="#testimonials" className="hover:text-orange-300 transition-colors">
+                Reviews
+              </Link>
+              <Link href="#contact" className="hover:text-orange-300 transition-colors">
+                Contact
+              </Link>
+            </nav>
           </div>
-          <nav className="hidden md:flex space-x-6">
-            <Link href="#offers" className="hover:text-orange-300 transition-colors">
-              Offers
-            </Link>
-            <Link href="#about" className="hover:text-orange-300 transition-colors">
-              About
-            </Link>
-            <Link href="#testimonials" className="hover:text-orange-300 transition-colors">
-              Reviews
-            </Link>
-            <Link href="#contact" className="hover:text-orange-300 transition-colors">
-              Contact
-            </Link>
-          </nav>
+          <div
+            className={`md:hidden overflow-hidden transition-all duration-300 ${
+              mobileMenuOpen ? "max-h-64 opacity-100 mt-3" : "max-h-0 opacity-0 mt-0"
+            }`}
+            style={{ transitionProperty: "max-height, opacity, margin-top" }}
+          >
+            <div className="flex flex-col space-y-2 pb-2">
+              <Link href="#offers" className="px-2 py-2 rounded-md hover:text-orange-300" onClick={() => setMobileMenuOpen(false)}>
+                Offers
+              </Link>
+              <Link href="#about" className="px-2 py-2 rounded-md hover:text-orange-300" onClick={() => setMobileMenuOpen(false)}>
+                About
+              </Link>
+              <Link href="#testimonials" className="px-2 py-2 rounded-md hover:text-orange-300" onClick={() => setMobileMenuOpen(false)}>
+                Reviews
+              </Link>
+              <Link href="#contact" className="px-2 py-2 rounded-md hover:text-orange-300" onClick={() => setMobileMenuOpen(false)}>
+                Contact
+              </Link>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -208,24 +162,26 @@ export default function HomePage() {
           className="object-cover"
           priority
           sizes="100vw"
-          quality={90}
+          quality={75}
         />
         <div className="relative z-20 text-center text-white max-w-4xl px-4">
-          <h2 className="text-5xl md:text-7xl font-bold mb-6 text-shadow-lg">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-6 text-shadow-lg">
             Discover Morocco's
             <span className="block text-orange-300">Majestic Mountains</span>
           </h2>
-          <p className="text-xl md:text-2xl mb-8 text-orange-100">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 text-orange-100">
             Expert-guided trekking adventures through the Atlas, Sahara, and beyond
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-orange-600 hover:bg-orange-700 text-lg px-8 py-4">
+          <Button asChild size="lg" className="w-full sm:w-auto bg-orange-600 hover:bg-orange-700 text-lg px-8 py-4 shadow-lg active:scale-95 transition-transform">
+            <Link href="#offers">
               Explore Our Treks
-            </Button>
+            </Link>
+          </Button>
             <Button
               size="lg"
               variant="outline"
-              className="border-orange-300 text-orange-300 hover:bg-orange-300 hover:text-orange-900 text-lg px-8 py-4 bg-transparent"
+              className="w-full sm:w-auto border-orange-300 text-orange-300 hover:bg-orange-300 hover:text-orange-900 text-lg px-8 py-4 bg-transparent"
             >
               Meet Your Guide
             </Button>
@@ -234,11 +190,11 @@ export default function HomePage() {
       </section>
 
       {/* Trekking Offers */}
-      <section id="offers" className="py-20 bg-gradient-to-b from-amber-50 to-orange-100">
+      <section id="offers" className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-amber-50 to-orange-100">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h3 className="text-4xl font-bold text-orange-900 mb-4">Our Trekking Adventures</h3>
-            <p className="text-xl text-orange-700 max-w-2xl mx-auto">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-orange-900 mb-4">Our Trekking Adventures</h3>
+            <p className="text-base sm:text-lg md:text-xl text-orange-700 max-w-2xl mx-auto">
               Choose from our carefully crafted mountain expeditions, each offering unique landscapes and cultural
               experiences
             </p>
@@ -251,7 +207,7 @@ export default function HomePage() {
                 className="overflow-hidden hover:shadow-xl transition-shadow duration-300 border-orange-200"
               >
                 <div className="relative h-80">
-                  <Image src={offer.image || "/placeholder.svg"} alt={offer.name} fill className="object-cover" />
+                  <Image src={offer.image || "/placeholder.svg"} alt={offer.name} fill className="object-cover" quality={75} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                   <div className="absolute top-4 right-4">
                     <Badge
                       className={`${
@@ -302,43 +258,43 @@ export default function HomePage() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-gradient-to-r from-orange-900 to-red-900 text-white">
+      <section id="about" className="py-12 sm:py-16 md:py-20 bg-gradient-to-r from-orange-900 to-red-900 text-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h3 className="text-4xl font-bold mb-6">Meet Your Expert Guide Lahsan</h3>
-              <p className="text-xl mb-6 text-orange-100">
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">Meet Your Expert Guide Lahsan</h3>
+              <p className="text-base sm:text-lg md:text-xl mb-6 text-orange-100">
                 With over 10 years of experience guiding adventurers through Morocco's most spectacular landscapes, I am
                 passionate about sharing the beauty and culture of my homeland.
               </p>
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <Mountain className="h-6 w-6 text-orange-300" />
-                  <span>Certified Mountain Guide</span>
+                  <span className="text-sm sm:text-base">Certified Mountain Guide</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Users className="h-6 w-6 text-orange-300" />
-                  <span>500+ Successful Expeditions</span>
+                  <span className="text-sm sm:text-base">500+ Successful Expeditions</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Star className="h-6 w-6 text-orange-300" />
-                  <span>Fluent in Arabic, French, English</span>
+                  <span className="text-sm sm:text-base">Fluent in Arabic, French, English</span>
                 </div>
               </div>
             </div>
             <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-              <Image src="/img_guide/guide_26.jpg" alt="Mountain Guide" fill className="object-cover" />
+              <Image src="/img_guide/guide_26.jpg" alt="Mountain Guide" fill className="object-cover" quality={75} sizes="(max-width: 768px) 100vw, 50vw" />
             </div>
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="py-20 bg-gradient-to-b from-orange-100 to-amber-50">
+      <section id="testimonials" className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-orange-100 to-amber-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h3 className="text-4xl font-bold text-orange-900 mb-4">What Our Adventurers Say</h3>
-            <p className="text-xl text-orange-700">Real experiences from real travelers</p>
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-orange-900 mb-4">What Our Adventurers Say</h3>
+            <p className="text-base sm:text-lg md:text-xl text-orange-700">Real experiences from real travelers</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -391,7 +347,7 @@ export default function HomePage() {
             <div className="text-center mt-8">
               <Button
                 onClick={() => setShowAllTestimonials(!showAllTestimonials)}
-                className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-6 text-lg"
+                className="w-full sm:w-auto bg-orange-600 hover:bg-orange-700 text-white px-8 py-6 text-lg"
                 size="lg"
               >
                 {showAllTestimonials ? (
@@ -412,11 +368,11 @@ export default function HomePage() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-gradient-to-r from-red-900 to-orange-900 text-white">
+      <section id="contact" className="py-12 sm:py-16 md:py-20 bg-gradient-to-r from-red-900 to-orange-900 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h3 className="text-4xl font-bold mb-4">Ready for Your Adventure?</h3>
-            <p className="text-xl text-orange-100">Get in touch to plan your perfect Moroccan mountain experience</p>
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Ready for Your Adventure?</h3>
+            <p className="text-base sm:text-lg md:text-xl text-orange-100">Get in touch to plan your perfect Moroccan mountain experience</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
@@ -440,7 +396,7 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-orange-950 text-white py-12">
+      <footer className="bg-orange-950 text-white py-10 sm:py-12">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
@@ -534,7 +490,7 @@ export default function HomePage() {
                 </a>
 
                 <a
-                  href="https://www.instagram.com/atlas_holiday_tour" // remplace si besoin
+                  href="https://www.instagram.com/atlas_holiday_tour"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
