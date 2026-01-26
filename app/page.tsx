@@ -400,7 +400,7 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="bg-orange-950 text-white py-10 sm:py-12">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <Mountain className="h-6 w-6 text-orange-300" />
@@ -469,6 +469,26 @@ export default function HomePage() {
                 <li>
                   <Link href="/book/7" className="hover:text-orange-300">
                     Marrakech to Sahara Desert Adventure Tour
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h5 className="font-semibold mb-4">Legal</h5>
+              <ul className="space-y-2 text-orange-200">
+                <li>
+                  <Link href="/terms" className="hover:text-orange-300">
+                    Terms of Service
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/privacy" className="hover:text-orange-300">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/legal" className="hover:text-orange-300">
+                    Legal Notice
                   </Link>
                 </li>
               </ul>

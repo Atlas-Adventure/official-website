@@ -57,6 +57,68 @@ export default function BookingPage() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const getPricePerPerson = (participants: number): number => {
+    if (participants === 1) {
+      if (offer.pricingTiers && offer.pricingTiers.length > 0) {
+        const soloSupplement = 50
+        
+        for (const tier of offer.pricingTiers) {
+          const groupSizeStr = tier.groupSize.toLowerCase()
+          const tierNumber = parseInt(groupSizeStr.replace(/\D/g, ""))
+          
+          if (tierNumber === 2 && !groupSizeStr.includes("+")) {
+            return tier.pricePerPerson + soloSupplement
+          }
+        }
+        
+        const twoPersonTier = offer.pricingTiers.find(t => {
+          const tierNumber = parseInt(t.groupSize.replace(/\D/g, ""))
+          return tierNumber === 2
+        })
+        
+        if (twoPersonTier) {
+          return twoPersonTier.pricePerPerson + soloSupplement
+        }
+      }
+      
+      return offer.price
+    }
+    
+    if (offer.pricingTiers && offer.pricingTiers.length > 0) {
+      const exactTiers = offer.pricingTiers.filter(t => !t.groupSize.toLowerCase().includes("+"))
+      const plusTiers = offer.pricingTiers.filter(t => t.groupSize.toLowerCase().includes("+"))
+      
+      for (const tier of exactTiers) {
+        const tierNumber = parseInt(tier.groupSize.replace(/\D/g, ""))
+        if (participants === tierNumber) {
+          return tier.pricePerPerson
+        }
+      }
+      
+      if (plusTiers.length > 0) {
+        const sortedPlusTiers = plusTiers.sort((a, b) => {
+          const aNum = parseInt(a.groupSize.replace(/\D/g, "")) || 0
+          const bNum = parseInt(b.groupSize.replace(/\D/g, "")) || 0
+          return aNum - bNum
+        })
+        
+        for (const tier of sortedPlusTiers) {
+          const minNumber = parseInt(tier.groupSize.replace(/\D/g, ""))
+          if (participants >= minNumber) {
+            return tier.pricePerPerson
+          }
+        }
+      }
+      
+      return offer.pricingTiers[offer.pricingTiers.length - 1].pricePerPerson
+    }
+    return offer.price
+  }
+
+  const participants = Number(formData.participants) || 1
+  const currentPricePerPerson = getPricePerPerson(participants)
+  const totalPrice = currentPricePerPerson * participants
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -65,30 +127,40 @@ export default function BookingPage() {
       return
     }
 
-    const participants = Number(formData.participants) || 1
     const formattedDate = format(selectedDate, "MMMM d, yyyy")
     const activityName = offer.name
     const fitnessLevel = formData.fitnessLevel || "Not specified"
     const dietaryRestrictions = formData.dietaryRestrictions.trim() || "None"
     const specialRequests = formData.specialRequests.trim() || "None"
 
+    const currency = offer.pricingTiers && offer.pricingTiers.length > 0 
+      ? (offer.pricingTiers[0].currency || "$") 
+      : "$"
+    
+    const pricePerPersonDisplay = `${currency}${currentPricePerPerson}`
+    const totalPriceDisplay = `${currency}${totalPrice}`
+    
+    const isSolo = participants === 1
+    const hasPricingTiers = offer.pricingTiers && offer.pricingTiers.length > 0
+    const soloNote = isSolo && hasPricingTiers ? `\nNote: Solo traveler supplement ($50) included (base price for 2 people + supplement).` : ""
+
     const whatsappMessage = `Hello Atlas Adventures! I want to book the ${activityName}.
 
 Date: ${formattedDate}
 Participants: ${participants}
+Price per person: ${pricePerPersonDisplay}
+Total price: ${totalPriceDisplay}${soloNote}
 Fitness Level: ${fitnessLevel}
 Dietary Requirements: ${dietaryRestrictions}
 Special Requests: ${specialRequests}
 
-Please let me know the availability and total price.`
+Please let me know the availability.`
     
     const encodedMessage = encodeURIComponent(whatsappMessage)
     const whatsappUrl = `https://wa.me/212653534590?text=${encodedMessage}`
     
     window.open(whatsappUrl, "_blank")
   }
-
-  const totalPrice = offer.price * (Number(formData.participants) || 1)
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-amber-50 overflow-x-hidden">
@@ -426,10 +498,24 @@ Please let me know the availability and total price.`
                     />
                   </div>
 
-                  <div className="pt-4 border-t border-orange-200 w-full">
+                  <div className="pt-4 border-t border-orange-200 w-full space-y-2">
+                    <div className="flex justify-between items-center text-sm text-orange-700 w-full min-w-0">
+                      <span className="break-words">Price per person:</span>
+                      <span className="flex-shrink-0 ml-2 break-words">
+                        {offer.pricingTiers && offer.pricingTiers.length > 0 
+                          ? `${offer.pricingTiers[0].currency || "$"}${currentPricePerPerson}`
+                          : `$${currentPricePerPerson}`
+                        }
+                      </span>
+                    </div>
                     <div className="flex justify-between items-center text-lg font-bold text-orange-900 w-full min-w-0">
                       <span className="break-words">Total:</span>
-                      <span className="flex-shrink-0 ml-2 break-words">${totalPrice}</span>
+                      <span className="flex-shrink-0 ml-2 break-words">
+                        {offer.pricingTiers && offer.pricingTiers.length > 0 
+                          ? `${offer.pricingTiers[0].currency || "$"}${totalPrice}`
+                          : `$${totalPrice}`
+                        }
+                      </span>
                     </div>
                   </div>
 
