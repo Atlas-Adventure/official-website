@@ -156,7 +156,7 @@ export default function HomePage() {
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-orange-900/70 to-red-900/70 z-10"></div>
         <Image
-          src="/img_montagne/Montagne_hd_1.jpg"
+          src="/img_montagne/montagne_10.jpg"
           alt="Majestic High Atlas Mountains in Morocco with snow-capped peaks and dramatic landscapes - Atlas Adventures trekking destination"
           fill
           className="object-cover"
@@ -178,12 +178,14 @@ export default function HomePage() {
               Explore Our Treks
             </Link>
           </Button>
-            <Button
+            <Button asChild
               size="lg"
               variant="outline"
               className="w-full sm:w-auto border-orange-300 text-orange-300 hover:bg-orange-300 hover:text-orange-900 text-lg px-8 py-4 bg-transparent"
             >
-              Meet Your Guide
+              <Link href="#about">
+                Meet Your Guide
+              </Link>
             </Button>
           </div>
         </div>
@@ -490,7 +492,7 @@ export default function HomePage() {
                 </a>
 
                 <a
-                  href="https://www.instagram.com/atlas_holiday_tour"
+                  href="https://www.instagram.com/atlas_holiday_tours/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
