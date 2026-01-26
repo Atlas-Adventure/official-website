@@ -534,7 +534,7 @@ export default function HomePage() {
                 </a>
 
                 <a
-                  href="https://www.instagram.com/atlas_holiday_" // remplace si besoin
+                  href="https://www.instagram.com/atlas_holiday_tour" // remplace si besoin
                   target="_blank"
                   rel="noopener noreferrer"
                 >
